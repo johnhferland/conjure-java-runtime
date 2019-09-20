@@ -123,12 +123,12 @@ public final class OkHttpClientsTest extends TestBase {
         }
 
         @Override
-        public void onFailure(Call unused, IOException exception) {
+        public void onFailure(Call _value, IOException exception) {
             setException(exception);
         }
 
         @Override
-        public void onResponse(Call unused, Response response) {
+        public void onResponse(Call _value, Response response) {
             set(response);
         }
 
@@ -251,10 +251,10 @@ public final class OkHttpClientsTest extends TestBase {
             CountDownLatch wasSuccessful = new CountDownLatch(1);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Call call, IOException exception) {}
+                public void onFailure(Call _call, IOException _exception) {}
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(Call _call, Response response) throws IOException {
                     if (response.code() == code) {
                         wasSuccessful.countDown();
                     }
@@ -273,12 +273,12 @@ public final class OkHttpClientsTest extends TestBase {
         Semaphore successHandlerExecuted = new Semaphore(0);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException ioException) {
+            public void onFailure(Call _call, IOException _ioException) {
                 failureHandlerExecuted.release();  // should never happen
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call _call, Response _response) throws IOException {
                 successHandlerExecuted.release();
             }
         });
@@ -296,12 +296,12 @@ public final class OkHttpClientsTest extends TestBase {
         Semaphore successHandlerExecuted = new Semaphore(0);
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException ioException) {
+            public void onFailure(Call _call, IOException _ioException) {
                 failureHandlerExecuted.release();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call _call, Response _response) throws IOException {
                 successHandlerExecuted.release();  // should never happen
             }
         });
@@ -494,12 +494,12 @@ public final class OkHttpClientsTest extends TestBase {
         CompletableFuture<String> future = new CompletableFuture<>();
         call.enqueue(new Callback() {
             @Override
-            public void onFailure(Call call, IOException ioException) {
+            public void onFailure(Call _call, IOException ioException) {
                 future.completeExceptionally(ioException);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call _call, Response response) throws IOException {
                 future.complete(response.body().string());
             }
         });
@@ -897,12 +897,12 @@ public final class OkHttpClientsTest extends TestBase {
 
         HostEventsSink throwingSink = new HostEventsSink() {
             @Override
-            public void record(String serviceName, String hostname, int port, int statusCode, long micros) {
+            public void record(String _serviceName, String _hostname, int _port, int _statusCode, long _micros) {
                 throw new IllegalStateException("I am not an IOException");
             }
 
             @Override
-            public void recordIoException(String serviceName, String hostname, int port) {
+            public void recordIoException(String _serviceName, String _hostname, int _port) {
                 //empty;
             }
         };
